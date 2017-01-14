@@ -2,7 +2,7 @@ package twitter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -22,6 +22,9 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class DataTwitter {
 	
+	private static ArrayList<String> location= new ArrayList<String>();
+	private static ArrayList<String> hashtag= new ArrayList<String>();
+	private static List<MyTweet> myTweets = new ArrayList<MyTweet>();
 	
 	    /**
 	    * in diese Methode sollen wir an twitter compte connecten
@@ -49,11 +52,11 @@ public class DataTwitter {
 	 * @return
 	 */
 	// diese methode gibt uns List Tweets
-	public static List<MyTweet> getTweet(Integer maxTweet,ConfigurationBuilder cfg){
+	public static void getTweet(Integer maxTweet,ConfigurationBuilder cfg){
 		try{
 			
-			List<MyTweet> myTweets = new ArrayList<MyTweet>();
 			
+			String position;
 			TwitterFactory tf = null;
 			Twitter twitter = null;
 			
@@ -62,11 +65,24 @@ public class DataTwitter {
 			
     	    	 ResponseList < Status > status = twitter.getHomeTimeline(new Paging(1, maxTweet));
     	    	 for(Status s:status){
-            		
-            		MyTweet t = new MyTweet(s);
-                 	myTweets.add(t);
+    	    		 if (s.getText().contains("#")) {
+     	 				String[] listString = s.getText().split("#");
+     	 				for (int i = 0; i < listString.length; i++) {
+     	 					String hash = "#" + listString[i].split(" ")[0] + " ";
+     	 				   hashtag.add(hash);
+     	 				}
+       	    		 }
+    	    		 
+            		MyTweet tweet = new MyTweet(s);
+            		myTweets.add(tweet);
+            		position=s.getUser().getLocation();
+            		if(position.length()<1)
+            			position="keine Location";
+            		location.add(position); 
+                 	
+                 
     	    	 }  
-    	    return myTweets;
+    	    
     	    
 		}catch(TwitterException e){
 			if(e.getErrorCode() == 88){
@@ -79,7 +95,7 @@ public class DataTwitter {
 			e.printStackTrace();
 			
 		}
-		return new ArrayList<MyTweet>();
+		
 	}
 	// diese methode gibt uns List Hashtag
 	public static ArrayList<String> gethashtag(Integer maxTweet,ConfigurationBuilder cfg){
@@ -118,6 +134,37 @@ public class DataTwitter {
 		}
 		return new ArrayList<String>();
 	}
+
+	
+	
+	
+	
+	
+	
+	public static ArrayList<String> getLocation() {
+		return location;
+	}
+
+	public static void setLocation(ArrayList<String> location) {
+		DataTwitter.location = location;
+	}
+
+	public static ArrayList<String> getHashtag() {
+		return hashtag;
+	}
+
+	public static void setHashtag(ArrayList<String> hashtag) {
+		DataTwitter.hashtag = hashtag;
+	}
+
+	public static List<MyTweet> getMyTweets() {
+		return myTweets;
+	}
+
+	public static void setMyTweets(List<MyTweet> myTweets) {
+		DataTwitter.myTweets = myTweets;
+	}
+	
 		
 	
 }

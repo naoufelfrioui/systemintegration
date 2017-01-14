@@ -30,7 +30,6 @@ import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 
 
-import twitter.DataTwitter;
 import twitter.MyTweet;
 
 
@@ -77,7 +76,7 @@ public class loadtwitterDate {
 		            DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(tableName);
 		            TableDescription tableDescription = dynamoDB.describeTable(describeTableRequest).getTable();
 		                
-		                 System.out.println("Success.  Table status: " + tableDescription.getTableStatus());
+		                 System.out.println("Success.  Table :"+  tableName  +": " + tableDescription.getTableStatus());
 
 		             } catch (Exception e) {
 		                 System.err.println("Unable to create table: ");
@@ -89,57 +88,41 @@ public class loadtwitterDate {
 		/* in diese Methode wird die hshtag und die hashtagnummer in DynamoDB Table hochlädt
 		 * 
 		 * */
-		public void loadhashtag(String tableName )
+		public void loadNBdata(ArrayList<String> list,String tableName )
 		{
 			init();
 	        int nb;
-			
-			
 			 try {
-			ArrayList<String> hashtag = new ArrayList<String>();	
-			// wir nehmen die Tweets von class DataTwitter
-			hashtag = DataTwitter.gethashtag(100,DataTwitter.getConf());
 		    Map<String, AttributeValue> item ; 
             PutItemRequest putItemRequest ;
             
-            for (int j = 0; j < hashtag.size(); j++) {
+            for (int j = 0; j < list.size(); j++) {
 				
-				String hast=hashtag.get(j);
+				String position=list.get(j);
 				nb=0;
-				for (int i = 0; i < hashtag.size(); i++) {
-					if(hast.equals(hashtag.get(i)))
+				for (int i = 0; i < list.size(); i++) {
+					if(position.equals(list.get(i)))
 						nb++;
 				}
 		            	// wir erstellen eine neue Item in DynamoDB Table 
-		            	 item = newhashtag(hast, nb);
+		            	 item = newNbItem(position, nb);
 		                 putItemRequest = new PutItemRequest(tableName, item);
-		                 dynamoDB.putItem(putItemRequest);
-		                		                		               
-		                System.out.println("PutItem succeeded: "+ hast + " -----" +nb );
+		                 dynamoDB.putItem(putItemRequest);         
+		                System.out.println("PutItem succeeded: "+ position + " -----" +nb );
 		            	}
-			
-                  
 			}catch (Exception e) {
 		                System.err.println("Unable to add Tweets: " );
 		                System.err.println(e.getMessage());
 		               
 		            }
 		       		
-		}
-		
-		
-		public void loaddata(String tableName )
+		}	
+		public void loaddata(List<MyTweet> myTweets,String tableName )
 		{
-			init();
-	
-			
-			int i=1;
-			List<MyTweet> myTweets = new ArrayList<MyTweet>();	
-			// wir nehmen die Tweets von class DataTwitter
-		    myTweets = DataTwitter.getTweet(100,DataTwitter.getConf());
+			init();			
+			int i=1;		
 		    Map<String, AttributeValue> item ; 
             PutItemRequest putItemRequest ;
-            
 				for(MyTweet mt : myTweets)
 				{
 			 try {
@@ -147,10 +130,8 @@ public class loadtwitterDate {
 				  * deswegen wir sollen eine test machen , wenn Sie null sind , sie nehmmen -1 
 				  
 				  */
-
 		            	if(mt.getLocation().length()>1)
-		            	{	
-		            	
+		            	{			            	
 		            	// wir erstellen eine neue Item in DynamoDB Table 
 		            	 item = newItem(mt.getId(),mt.getUser(),mt.getTimeTweet(),mt.getLocation(), mt.getContent(),mt.getLongitude(),mt.getLatitude());
 		                 putItemRequest = new PutItemRequest(tableName, item);
@@ -172,44 +153,6 @@ public class loadtwitterDate {
 		/*
 		 * diese Methode liest die Items der dynamodb Table
 		 */
-		
-		public void gethastag(Iterator<Item> iter , String hash)
-		{
-				
-			String hashtage;		
-					
-			 try {	
-					int nb=0;
-					String ha="";	            
-	            while (iter.hasNext()) {
-	            	Item item = iter.next();
-	            	hashtage=(String) item.get("hashtag");
-	            	if (hashtage.contains("#")) {
-						String[] listString = hashtage.split("#");
-						for (int i = 0; i < listString.length; i++) {
-				     	 ha="#"+listString[i].split(" ")[0] ;
-				     	 
-						 if(ha.equals(hash) )
-			            	{ nb++;
-			                System.out.println(ha);
-			            	}						
-						}
-	
-	            	}
-	            }
-	            System.out.println(nb);
-			 }
-	            
-	        
-			 
-			 catch (Exception e) {
-		               
-		                System.err.println(e.getMessage());
-		             
-		            }
-		        			
-		}
-		
 		public void getdata(String tableName )
 		{
 			int i=1;
@@ -251,10 +194,10 @@ public class loadtwitterDate {
 		 *  sollen wir diese daten analysiert und in Map<>List stellen 
 		 */
 	
-			
-		private static Map<String, AttributeValue> newhashtag(String hashtag,int nb) {
+	
+		private static Map<String, AttributeValue> newNbItem(String ID,int nb) {
 	        Map<String, AttributeValue> item = new HashMap<String, AttributeValue>();
-	        item.put("ID", new AttributeValue(hashtag));    
+	        item.put("ID", new AttributeValue(ID));    
 	        item.put("nb", new AttributeValue(Integer.toString(nb)));
 	       
 	        
@@ -273,7 +216,5 @@ public class loadtwitterDate {
 			        item.put("content", new AttributeValue().withSS(content));
 
 			        return item;
-			    
-		
                }
 }
