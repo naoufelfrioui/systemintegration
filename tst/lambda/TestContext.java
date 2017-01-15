@@ -22,117 +22,88 @@ public class TestContext implements Context {
     private int memoryLimitInMB = 128;
     private int remainingTimeInMillis = 15000;
 
-    
-
+    @Override
     public String getAwsRequestId() {
-		return awsRequestId;
-	}
+        return awsRequestId;
+    }
 
+    public void setAwsRequestId(String value) {
+        awsRequestId = value;
+    }
 
+    @Override
+    public ClientContext getClientContext() {
+        return clientContext;
+    }
 
-	public void setAwsRequestId(String awsRequestId) {
-		this.awsRequestId = awsRequestId;
-	}
+    public void setClientContext(ClientContext value) {
+        clientContext = value;
+    }
 
+    @Override
+    public String getFunctionName() {
+        return functionName;
+    }
 
+    public void setFunctionName(String value) {
+        functionName = value;
+    }
 
-	public ClientContext getClientContext() {
-		return clientContext;
-	}
+    @Override
+    public CognitoIdentity getIdentity() {
+        return identity;
+    }
 
+    public void setIdentity(CognitoIdentity value) {
+        identity = value;
+    }
 
+    @Override
+    public String getLogGroupName() {
+        return logGroupName;
+    }
 
-	public void setClientContext(ClientContext clientContext) {
-		this.clientContext = clientContext;
-	}
+    public void setLogGroupName(String value) {
+        logGroupName = value;
+    }
 
+    @Override
+    public String getLogStreamName() {
+        return logStreamName;
+    }
 
+    public void setLogStreamName(String value) {
+        logStreamName = value;
+    }
 
-	public String getFunctionName() {
-		return functionName;
-	}
+    @Override
+    public LambdaLogger getLogger() {
+        return logger;
+    }
 
+    public void setLogger(LambdaLogger value) {
+        logger = value;
+    }
 
+    @Override
+    public int getMemoryLimitInMB() {
+        return memoryLimitInMB;
+    }
 
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
-	}
+    public void setMemoryLimitInMB(int value) {
+        memoryLimitInMB = value;
+    }
 
+    @Override
+    public int getRemainingTimeInMillis() {
+        return remainingTimeInMillis;
+    }
 
+    public void setRemainingTimeInMillis(int value) {
+        remainingTimeInMillis = value;
+    }
 
-	public CognitoIdentity getIdentity() {
-		return identity;
-	}
-
-
-
-	public void setIdentity(CognitoIdentity identity) {
-		this.identity = identity;
-	}
-
-
-
-	public String getLogGroupName() {
-		return logGroupName;
-	}
-
-
-
-	public void setLogGroupName(String logGroupName) {
-		this.logGroupName = logGroupName;
-	}
-
-
-
-	public String getLogStreamName() {
-		return logStreamName;
-	}
-
-
-
-	public void setLogStreamName(String logStreamName) {
-		this.logStreamName = logStreamName;
-	}
-
-
-
-	public LambdaLogger getLogger() {
-		return logger;
-	}
-
-
-
-	public void setLogger(LambdaLogger logger) {
-		this.logger = logger;
-	}
-
-
-
-	public int getMemoryLimitInMB() {
-		return memoryLimitInMB;
-	}
-
-
-
-	public void setMemoryLimitInMB(int memoryLimitInMB) {
-		this.memoryLimitInMB = memoryLimitInMB;
-	}
-
-
-
-	public int getRemainingTimeInMillis() {
-		return remainingTimeInMillis;
-	}
-
-
-
-	public void setRemainingTimeInMillis(int remainingTimeInMillis) {
-		this.remainingTimeInMillis = remainingTimeInMillis;
-	}
-
-
-
-	/**
+    /**
      * A simple {@code LambdaLogger} that prints everything to stderr.
      */
     private static class TestLogger implements LambdaLogger {

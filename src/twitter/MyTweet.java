@@ -6,7 +6,7 @@ import twitter4j.Status;
 
 public class MyTweet {
 
-	private Long id;  
+	private String id;  
 	private String content; 
 	private String hashtage;
 	private String user;
@@ -14,6 +14,7 @@ public class MyTweet {
 	private double latitude;
 	private double longitude;
 	private Date timeTweet;
+	private String date;
 	private int retweet;
 	private int nbRetweet;
 	private int nbFavoris;
@@ -57,7 +58,7 @@ public class MyTweet {
 			longitude = s.getGeoLocation().getLongitude();
 		}
 		
-		this.setId(s.getId());
+		this.setId(String.valueOf(s.getId()));
 		this.setContent(s.getText().replace("'", " "));
 		this.setHashtage(hashtag);
 		this.setLocation(s.getUser().getLocation());
@@ -68,8 +69,7 @@ public class MyTweet {
 		this.setNbRetweet(s.getRetweetCount());
 		this.setNbFavoris(s.getFavoriteCount());
 		this.setUser(s.getUser().getName());
-	
-	
+
 	}
 	
 	
@@ -82,10 +82,16 @@ public class MyTweet {
 	
 	
 	
-	public Long getId() {
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getContent() {

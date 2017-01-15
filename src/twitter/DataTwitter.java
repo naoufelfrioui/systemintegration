@@ -35,10 +35,10 @@ public class DataTwitter {
 	public static ConfigurationBuilder getConf() {
         
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("7SsChMWuTKL0fuKUbym37xj9F")
-        .setOAuthConsumerSecret("pTxeWx3Un5pjKE0GMRAdd3yOAdGQguCDFlRwPXwMsv0nA3EtlO")
-        .setOAuthAccessToken("1877539808-HykgJA91IfkplfBHWDfl8Tdzu8xYPsuRN7kAOIl")
-        .setOAuthAccessTokenSecret("ZOYkMalxKAllBSlqgMRtS7ym4KDh96cCIQRpXEDwFal9f");
+		cb.setDebugEnabled(true).setOAuthConsumerKey("ImD7gRwKdEKhDUFQtvY4bIqTW")
+        .setOAuthConsumerSecret("hbbHbJtIoHDgF5weZfEHTXEPDjEfF9Ceh7UG78G1EJDXMfQkTL")
+        .setOAuthAccessToken("1713240570-Q8N2kNnLYGWfWduo1B9JeLRy0p5TnwXjK3Zmizp")
+        .setOAuthAccessTokenSecret("5DFtKkac9pvTOs3V3Q4wqcrggb4CJVFGwJUKn9DiRWCwa");
 
 		return cb;
 	}
