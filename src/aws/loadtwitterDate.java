@@ -43,8 +43,8 @@ public class loadtwitterDate {
 	 */
 	public void init() {
 		try {
-			BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials("AKIAJV6PBZRCMUNUHQKA",
-					"zsUvML/xlTGgguid/yqNph7XVQ5By5yljiHl5PMt");
+			BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials("hh",
+					"gg");
 			
 			 Client = new AmazonDynamoDBClient(basicAWSCredentials)
 					.withEndpoint("http://dynamodb.us-west-2.amazonaws.com");
